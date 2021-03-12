@@ -38,7 +38,16 @@ class QuestionnaireListAdapter(private val questionnaireList: List<Questionnaire
         context.startActivity(
           Intent(context, QuestionnaireActivity::class.java).apply {
             putExtra(QuestionnaireActivity.QUESTIONNAIRE_TITLE_KEY, questionnairelistItem.name)
-            putExtra(QuestionnaireActivity.QUESTIONNAIRE_FILE_PATH_KEY, questionnairelistItem.path)
+            putExtra(
+              QuestionnaireActivity.QUESTIONNAIRE_FILE_PATH_KEY,
+              questionnairelistItem.questionnairePath
+            )
+            questionnairelistItem.questionnaireResponsePath?.let {
+              putExtra(
+                QuestionnaireActivity.QUESTIONNAIRE_RESPONSE_FILE_PATH_KEY,
+                questionnairelistItem.questionnaireResponsePath
+              )
+            }
           }
         )
       }

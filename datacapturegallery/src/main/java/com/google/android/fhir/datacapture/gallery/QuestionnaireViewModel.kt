@@ -22,7 +22,7 @@ import androidx.lifecycle.SavedStateHandle
 
 class QuestionnaireViewModel(application: Application, private val state: SavedStateHandle) :
   AndroidViewModel(application) {
-  var questionnaireJson: String? = null
+  private var questionnaireJson: String? = null
   val questionnaire: String
     get() {
       if (questionnaireJson == null) {
@@ -34,5 +34,20 @@ class QuestionnaireViewModel(application: Application, private val state: SavedS
             .use { it.readText() }
       }
       return questionnaireJson!!
+    }
+  private var questionnaireResponseJson: String? = null
+  val questionnaireResponse: String?
+    get() {
+      if (questionnaireResponseJson == null) {
+        if (state.contains(QuestionnaireActivity.QUESTIONNAIRE_RESPONSE_FILE_PATH_KEY)) {
+          questionnaireResponseJson =
+            getApplication<Application>()
+              .assets
+              .open(state[QuestionnaireActivity.QUESTIONNAIRE_RESPONSE_FILE_PATH_KEY]!!)
+              .bufferedReader()
+              .use { it.readText() }
+        }
+      }
+      return questionnaireResponseJson
     }
 }
